@@ -47,10 +47,10 @@ class Tree {
 		if (n.value > v && n.left) {
 			return this.#del(n.left, v);
 		}
-		if (n.right) return this.#del(n.right, v);
+		if (n.value < v && n.right) return this.#del(n.right, v);
+
 		this.#del(n.left, v);
 		this.#del(n.right, v);
-
 	}
 
 	delete(value) {
