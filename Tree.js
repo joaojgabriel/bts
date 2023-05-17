@@ -77,6 +77,18 @@ class Tree {
 
 	delete(value) {
 		return this.#del(this.root, value);
+	}	
+
+	#f(n, v) {
+		if (!n) return undefined;
+		if (n.value === v) return n;
+		return n.value > v 
+			? this.#f(n.left, v)
+		  : this.#f(n.right, v);
+	}
+
+	find(value) {
+		return this.#f(this.root, value);
 	}
 }
 
@@ -137,3 +149,4 @@ tree.insert(4);
 tree.delete(23);
 tree.delete(1234);
 prettyPrint(tree.root);
+console.log(tree.find(5));
