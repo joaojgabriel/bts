@@ -25,14 +25,26 @@ class Tree {
 	}
 
 	#del(n, v) {
-		if (!n) return undefined;
 		if (n.left?.value === v) {
 			if (!n.left.left && !n.left.right) {
 				n.left = null;
 				return v;
 			}
-			if (!n.left.right && n.left.left) n.left = n.left.left;
-			else if (!n.left.left) n.left = n.left.right;
+
+			if (n.left.left && n.left.right) {
+				let curr = n.left.left;
+				while (curr.right.right) {
+					curr = curr.right;
+				}
+				n.left.value = curr.right.value;
+				curr.right = null;
+				return n.left;
+			}
+
+			if (n.left.left) n.left = n.left.left;
+			else n.left = n.left.right;
+
+			return n.left;
 		}
 
 		if (n.right?.value === v) {
@@ -40,17 +52,27 @@ class Tree {
 				n.right = null;
 				return v;
 			}
-			if (!n.right.right && n.right.left) n.right = n.right.left;
-			else if (!n.right.left) n.right = n.right.right;
+
+			if (n.left.left && n.left.right) {
+				let curr = n.right.left;
+				while (curr.right.right) {
+					curr = curr.right;
+				}
+				n.right.value = curr.right.value;
+				curr.right = null;
+				return n.right;
+			}
+
+			if (n.right.left) n.right = n.right.left;
+			else n.right = n.right.right;
+			
+			return n.right;
 		}
 
-		if (n.value > v && n.left) {
+		if (n.left?.value > v) {
 			return this.#del(n.left, v);
 		}
-		if (n.value < v && n.right) return this.#del(n.right, v);
-
-		this.#del(n.left, v);
-		this.#del(n.right, v);
+		if (n.right?.value < v) return this.#del(n.right, v);
 	}
 
 	delete(value) {
@@ -108,7 +130,10 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 };
 
 prettyPrint(tree.root);
-tree.insert(5);
-prettyPrint(tree.root);
-tree.delete(4);
+tree.insert(0x45);
+tree.insert(42);
+tree.insert(2);
+tree.insert(4);
+tree.delete(23);
+tree.delete(1234);
 prettyPrint(tree.root);
