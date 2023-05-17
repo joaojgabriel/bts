@@ -1,9 +1,28 @@
-import Node from "./Node";
+import Node from "./Node.js";
 
 class Tree {
   constructor(arr) {
     this.root = build(arr);
   }
+
+	#ins(n, v) {
+		if (n.value >= v) {
+			if (n.left) this.#ins(n.left, v);
+			else {
+				n.left = new Node(v);
+				return n.left;
+			}
+		} else {
+			if (n.right) this.#ins(n.right, v); 
+			else {
+				n.right = new Node(v);
+				return n.right
+			}
+		}
+	}
+	insert(value) {
+		return this.#ins(this.root, value)
+	}
 }
 
 const mergeSort = (arr) => {
@@ -49,10 +68,12 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node.right !== null) {
     prettyPrint(node.right, `${prefix}${isLeft ? "│   " : "    "}`, false);
   }
-  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.data}`);
+  console.log(`${prefix}${isLeft ? "└── " : "┌── "}${node.value}`);
   if (node.left !== null) {
     prettyPrint(node.left, `${prefix}${isLeft ? "    " : "│   "}`, true);
   }
 };
 
+prettyPrint(tree.root);
+tree.insert(5);
 prettyPrint(tree.root);
