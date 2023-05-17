@@ -90,6 +90,25 @@ class Tree {
 	find(value) {
 		return this.#f(this.root, value);
 	}
+
+	levelOrder(callbackFn) {
+		const q = [this.root];
+		const arr = [];
+
+		while (q.length) {
+			const curr = q.shift()
+			if (!curr) continue;
+
+			callbackFn 
+				? arr.push(callbackFn(curr.value))
+				: arr.push(curr.value);
+
+			q.push(curr.left);
+			q.push(curr.right);
+		}
+
+		return arr;
+	}
 }
 
 const mergeSort = (arr) => {
@@ -150,3 +169,4 @@ tree.delete(23);
 tree.delete(1234);
 prettyPrint(tree.root);
 console.log(tree.find(5));
+console.log(tree.levelOrder(x => x * 2));
