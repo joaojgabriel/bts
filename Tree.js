@@ -7,21 +7,45 @@ class Tree {
 
 	#ins(n, v) {
 		if (n.value >= v) {
-			if (n.left) this.#ins(n.left, v);
-			else {
-				n.left = new Node(v);
-				return n.left;
+			if (n.left) {
+				return this.#ins(n.left, v);
 			}
-		} else {
-			if (n.right) this.#ins(n.right, v); 
-			else {
-				n.right = new Node(v);
-				return n.right
-			}
+			n.left = new Node(v);
+			return n.left;
 		}
+		if (n.right) {
+			return this.#ins(n.right, v); 
+		}
+		n.right = new Node(v);
+		return n.right;
 	}
+
 	insert(value) {
 		return this.#ins(this.root, value)
+	}
+
+	#del(n, v) {
+		if (!n || (!n.left && !n.right)) return undefined;
+
+		if (n.left && n.left.value === v && !n.left.left && !n.left.right) {
+			n.left = null;
+			return v;
+		}
+
+		if (n.right && n.right.value === v && !n.right.left && !n.right.right) {
+			n.right = null;
+			return v;
+		}
+
+		if (n.value >= v) {
+			return this.#del(n.left, v);
+		}
+
+		return this.#del(n.right, v);
+	}
+
+	delete(value) {
+		return this.#del(this.root, value);
 	}
 }
 
@@ -76,4 +100,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 
 prettyPrint(tree.root);
 tree.insert(5);
+prettyPrint(tree.root);
+tree.delete(5);
 prettyPrint(tree.root);
