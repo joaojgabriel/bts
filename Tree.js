@@ -25,23 +25,32 @@ class Tree {
 	}
 
 	#del(n, v) {
-		if (!n || (!n.left && !n.right)) return undefined;
-
-		if (n.left && n.left.value === v && !n.left.left && !n.left.right) {
-			n.left = null;
-			return v;
+		if (!n) return undefined;
+		if (n.left?.value === v) {
+			if (!n.left.left && !n.left.right) {
+				n.left = null;
+				return v;
+			}
+			if (!n.left.right && n.left.left) n.left = n.left.left;
+			else if (!n.left.left) n.left = n.left.right;
 		}
 
-		if (n.right && n.right.value === v && !n.right.left && !n.right.right) {
-			n.right = null;
-			return v;
+		if (n.right?.value === v) {
+			if (!n.right.left && !n.right.right) {
+				n.right = null;
+				return v;
+			}
+			if (!n.right.right && n.right.left) n.right = n.right.left;
+			else if (!n.right.left) n.right = n.right.right;
 		}
 
-		if (n.value >= v) {
+		if (n.value > v && n.left) {
 			return this.#del(n.left, v);
 		}
+		if (n.right) return this.#del(n.right, v);
+		this.#del(n.left, v);
+		this.#del(n.right, v);
 
-		return this.#del(n.right, v);
 	}
 
 	delete(value) {
@@ -58,7 +67,7 @@ const mergeSort = (arr) => {
   const left = mergeSort(arr.slice(0, mid));
   const right = mergeSort(arr.slice(mid));
 
-  const sorted = [];
+	const sorted = [];
   for (let i = 0; i < len; ++i) {
     if (i >= mid) {
       if (!left.length) return sorted.concat(right);
@@ -101,5 +110,5 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
 prettyPrint(tree.root);
 tree.insert(5);
 prettyPrint(tree.root);
-tree.delete(5);
+tree.delete(4);
 prettyPrint(tree.root);
