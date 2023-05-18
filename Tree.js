@@ -109,6 +109,57 @@ class Tree {
 
 		return arr;
 	}
+
+	#pre(curr, path) {
+		if (!curr) return path;
+		
+		path.push(curr.value);
+		this.#pre(curr.left, path);
+		this.#pre(curr.right, path);
+
+		return path;
+	}
+
+	preorder() {
+		return this.#pre(this.root, []);
+	}
+
+	#in(curr, path) {
+		if (!curr) return path;
+		
+		this.#in(curr.left, path);
+		path.push(curr.value);
+		this.#in(curr.right, path);
+
+		return path;
+	}
+
+	inorder() {
+		return this.#in(this.root, []);
+	}
+
+	#post(curr, path) {
+		if (!curr) return path;
+		
+		this.#post(curr.left, path);
+		this.#post(curr.right, path);
+		path.push(curr.value);
+
+		return path;
+	}
+
+	postorder() {
+		return this.#post(this.root, []);
+	}
+
+	#hi(curr, h) {
+		if (!curr) return h;
+
+		return Math.max(this.#hi(curr.left, h + 1), this.#hi(curr.right, h + 1))
+	}
+	height(node) {
+		return this.#hi(node, 0);
+	}
 }
 
 const mergeSort = (arr) => {
@@ -160,7 +211,6 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-prettyPrint(tree.root);
 tree.insert(0x45);
 tree.insert(42);
 tree.insert(2);
@@ -168,5 +218,7 @@ tree.insert(4);
 tree.delete(23);
 tree.delete(1234);
 prettyPrint(tree.root);
-console.log(tree.find(5));
-console.log(tree.levelOrder(x => x * 2));
+console.log(tree.preorder());
+console.log(tree.inorder());
+console.log(tree.postorder());
+console.log(tree.height());
