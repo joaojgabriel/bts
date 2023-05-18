@@ -1,9 +1,13 @@
 import Node from "./Node.js";
 
 class Tree {
-  constructor(arr) {
-    this.root = build(arr);
-  }
+	constructor(arr=null) {
+		if (!arr) {
+			this.root = build(createRandomArr(arr));
+		} else {
+			this.root = build(arr);
+		}
+	}
 
 	#ins(n, v) {
 		if (n.value >= v) {
@@ -225,8 +229,6 @@ const buildAux = (lo, hi, arr) => {
 
 const build = (arr) => buildAux(0, arr.length - 1, mergeSort(arr));
 
-const tree = new Tree([1, 7, 4, 23, 8, 9, 4, 3, 5, 7, 9, 67, 6345, 324]);
-
 const prettyPrint = (node, prefix = "", isLeft = true) => {
   if (node === null) {
     return;
@@ -240,22 +242,33 @@ const prettyPrint = (node, prefix = "", isLeft = true) => {
   }
 };
 
-tree.insert(0x45);
-tree.insert(42);
-tree.insert(2);
-tree.insert(4);
-tree.delete(23);
-tree.delete(1234);
-tree.insert(31345234);
-tree.insert(31345234);
-tree.insert(31345234);
-tree.insert(31345234);
-tree.insert(31345234);
+const createRandomArr = () => {
+	const arr = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+	for (let i = 0; i < 15; ++i) {
+		arr[i] = Math.floor(Math.random() * 50);
+	}
+	return arr
+}
+
+const tree = new Tree(); 
 prettyPrint(tree.root);
+console.log('is it balanced?', tree.isBalanced());
+console.log(tree.levelOrder());
 console.log(tree.preorder());
 console.log(tree.inorder());
 console.log(tree.postorder());
-console.log(tree.isBalanced());
+tree.insert(Math.floor(200 * Math.random()))
+tree.insert(Math.floor(200 * Math.random()))
+tree.insert(Math.floor(200 * Math.random()))
+tree.insert(Math.floor(200 * Math.random()))
+tree.insert(Math.floor(200 * Math.random()))
+tree.insert(Math.floor(200 * Math.random()))
+prettyPrint(tree.root);
+console.log('before balancing:', tree.isBalanced());
 tree.rebalance();
 prettyPrint(tree.root);
-console.log(tree.isBalanced());
+console.log('after balancing:', tree.isBalanced());
+console.log(tree.levelOrder());
+console.log(tree.preorder());
+console.log(tree.inorder());
+console.log(tree.postorder());
