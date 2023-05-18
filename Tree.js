@@ -185,6 +185,10 @@ class Tree {
 	isBalanced() {
 		return this.#balanced(this.root);
 	}
+
+	rebalance() {
+		this.root = build(this.inorder());
+	}
 }
 
 const mergeSort = (arr) => {
@@ -242,12 +246,16 @@ tree.insert(2);
 tree.insert(4);
 tree.delete(23);
 tree.delete(1234);
-tree.insert(42342342);
-tree.insert(345345);
-tree.insert(23453452);
-tree.insert(3452345);
+tree.insert(31345234);
+tree.insert(31345234);
+tree.insert(31345234);
+tree.insert(31345234);
+tree.insert(31345234);
 prettyPrint(tree.root);
 console.log(tree.preorder());
 console.log(tree.inorder());
 console.log(tree.postorder());
+console.log(tree.isBalanced());
+tree.rebalance();
+prettyPrint(tree.root);
 console.log(tree.isBalanced());
