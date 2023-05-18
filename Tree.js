@@ -157,8 +157,22 @@ class Tree {
 
 		return Math.max(this.#hi(curr.left, h + 1), this.#hi(curr.right, h + 1))
 	}
+
 	height(node) {
 		return this.#hi(node, 0);
+	}
+
+	#deep(n, curr, d) {
+		if (!curr) return undefined;
+		if (curr === n) return d;
+		if (curr.value > n.value) {
+			return this.#deep(n, curr.left, d + 1);
+		}
+		return this.#deep(n, curr.right, d + 1);
+	}
+
+	depth(node) {
+		return this.#deep(node, this.root, 0);
 	}
 }
 
@@ -221,4 +235,4 @@ prettyPrint(tree.root);
 console.log(tree.preorder());
 console.log(tree.inorder());
 console.log(tree.postorder());
-console.log(tree.height());
+console.log(tree.depth(tree.find(69)));
