@@ -174,6 +174,17 @@ class Tree {
 	depth(node) {
 		return this.#deep(node, this.root, 0);
 	}
+
+	#balanced(curr) {
+		if (!curr) return true;
+		return (
+			(this.height(curr.left) - this.height(curr.right)) < 2 
+			&& this.#balanced(curr.left) && this.#balanced(curr.right) 
+		)
+	}
+	isBalanced() {
+		return this.#balanced(this.root);
+	}
 }
 
 const mergeSort = (arr) => {
@@ -231,8 +242,12 @@ tree.insert(2);
 tree.insert(4);
 tree.delete(23);
 tree.delete(1234);
+tree.insert(42342342);
+tree.insert(345345);
+tree.insert(23453452);
+tree.insert(3452345);
 prettyPrint(tree.root);
 console.log(tree.preorder());
 console.log(tree.inorder());
 console.log(tree.postorder());
-console.log(tree.depth(tree.find(69)));
+console.log(tree.isBalanced());
